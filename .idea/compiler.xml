@@ -9,5 +9,8 @@
         <module name="Kafka-basics" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="kafka-basics" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
