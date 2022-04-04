@@ -23,11 +23,16 @@ public class ProducerDemoKeys {
         // create the Producer
         KafkaProducer<String,String> producer = new KafkaProducer<>(properties);
 
+        int min = 1;
+        int max = 15;
+
         for (int i = 0; i<10; i++){
 
+            int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
+
             String topic = "demo_java";
-            String value = "Hello World again " + i*i*i;
-            String key = "id_" + i;
+            String value = "Hello World again " + i*i*random_int;
+            String key = "id_" + String.valueOf(random_int) +i;
 
             // create a producer record
             ProducerRecord<String, String> producerRecord =
