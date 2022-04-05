@@ -1,10 +1,7 @@
 package io.conduktor.demos.kafka;
 
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
@@ -14,9 +11,9 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
-public class ConsumeDemoWithShutdown {
+public class ConsumeDemoCooperative {
 
-    private static final Logger log = LoggerFactory.getLogger(ConsumeDemoWithShutdown.class.getSimpleName());
+    private static final Logger log = LoggerFactory.getLogger(ConsumeDemoCooperative.class.getSimpleName());
 
     public static void main(String[] args) {
         log.info("I'm a Kafka Consumer");
@@ -33,6 +30,7 @@ public class ConsumeDemoWithShutdown {
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"); // none/earliest/latest
+        properties.setProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName());
 
         // create Kafka Consumer
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
